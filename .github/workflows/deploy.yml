@@ -45,6 +45,9 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # 透過 API 自動啟用 Pages 並設定為 GitHub Actions 來源,免去手動到 Settings 開啟
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
