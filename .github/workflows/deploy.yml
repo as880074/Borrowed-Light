@@ -43,11 +43,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # 前置:需先在 repo Settings → Pages → Source 選「GitHub Actions」
+      # (預設 GITHUB_TOKEN 無權限自動建立 Pages 站台,故此步驟僅讀取設定)
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          # 透過 API 自動啟用 Pages 並設定為 GitHub Actions 來源,免去手動到 Settings 開啟
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
