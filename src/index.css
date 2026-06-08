@@ -1,111 +1,352 @@
+@import 'tailwindcss';
+
+/*
+ * ──────────────────────────────────────────────────────────────
+ *  大正浪漫 × 鬼滅之刃 和風主題  /  Taisho Roman × Demon Slayer
+ *  市松紋(Ichimatsu) · 青海波(Seigaiha) · 和紙(Washi)
+ *  墨綠黑底 + 金(金箔) + 朱(緋色) 點綴
+ *
+ *  NOTE: token 名稱沿用原本的 cyber-* / neon-* ,只置換「色值」,
+ *        讓既有元件無需大改即可整體換膚。語意對應:
+ *          neon-purple  → 朱 / 緋  (vermilion · 主強調色)
+ *          neon-cyan    → 水       (water-breathing teal)
+ *          neon-green   → 竹       (bamboo green · 正向)
+ *          neon-amber   → 金       (gold · 點綴)
+ *          neon-red     → 緋深     (crimson · 危險)
+ * ──────────────────────────────────────────────────────────────
+ */
+
+@theme {
+  /* —— 墨色基底 (sumi green-black) —— */
+  --color-cyber-bg: #0d1310;
+  --color-cyber-bg-2: #121a15;
+  --color-cyber-panel: #18221b;
+  --color-cyber-panel-2: #1f2b23;
+  --color-cyber-panel-3: #273428;
+  --color-cyber-border: #33453a;
+  --color-cyber-border-strong: #46604f;
+  --color-cyber-border-glow: rgba(201, 164, 92, 0.42);
+
+  /* —— 生成り和紙文字 (washi ivory) —— */
+  --color-cyber-text: #efe5cf;
+  --color-cyber-text-2: #c7c1a8;
+  --color-cyber-text-3: #8e9182;
+  --color-cyber-text-4: #5f6557;
+
+  /* —— 朱 / 緋 vermilion (主強調) —— */
+  --color-neon-purple: #cf4a37;
+  --color-neon-purple-bright: #ec8466;
+  --color-neon-purple-dim: #a8392a;
+  --color-neon-purple-deep: #6e2118;
+
+  /* —— 機能色 —— */
+  --color-neon-cyan: #4ba3b0; /* 水 water teal */
+  --color-neon-green: #6aa15f; /* 竹 bamboo */
+  --color-neon-amber: #c9a45c; /* 金 gold */
+  --color-neon-red: #c3392f; /* 緋深 crimson */
+
+  /* —— 金箔 (gold leaf) 擴充 —— */
+  --color-gold: #c9a45c;
+  --color-gold-bright: #e7c873;
+  --color-gold-deep: #8a6d2f;
+
+  --font-sans: 'Noto Serif TC', 'Shippori Mincho', 'Songti TC', serif;
+  --font-display: 'Shippori Mincho', 'Noto Serif TC', serif;
+  --font-vintage: 'Cinzel', 'Shippori Mincho', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /*
+   * 和紙紋理濃淡:此值為「遮蔽墨層」的不透明度。
+   *   數字越小 → 紙紋越明顯(加重質感);數字越大 → 越乾淨(以市松格紋為主)。
+   *   0.50 ≈ 紙紋 50% / 0.58 平衡 / 0.72 ≈ 幾乎只剩格紋
+   */
+  --washi-veil: 0.58;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color-scheme: dark;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--color-cyber-text);
+  background: var(--color-cyber-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-cyber-bg);
+  min-height: 100svh;
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+/*
+ * 背景三層:
+ *  1. 和紙暖光暈 (parchment warmth) — 頂部金、底部水
+ *  2. 墨綠漸層基底
+ */
+body {
+  /*
+   * 由上而下層次:
+   *   金/水/朱 光暈 → 和紙肌理(經半透明墨層柔化至約 35%)→ 墨綠漸層基底
+   */
+  background-image:
+    radial-gradient(
+      ellipse 80% 55% at 50% -12%,
+      rgba(201, 164, 92, 0.12),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 88% 112%,
+      rgba(75, 163, 176, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 8% 108%,
+      rgba(207, 74, 55, 0.06),
+      transparent 70%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--color-cyber-bg) 0%,
+      var(--color-cyber-bg-2) 100%
+    );
+  background-attachment: fixed;
+}
+
+/*
+ * 和紙紋理疊層:獨立固定層,以小尺寸平鋪(tile)而非 cover 拉伸,
+ * 避免大圖縮放造成的點陣化負擔。透過 --washi-veil 控制濃淡。
+ */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--washi-url);
+  background-size: 320px 320px;
+  background-repeat: repeat;
+  opacity: calc(1 - var(--washi-veil));
+}
+
+/*
+ * 市松紋 (Ichimatsu / checkerboard) — 鬼滅炭治郎羽織紋樣。
+ * 極低透明度,僅作肌理。以遮罩讓中央淡出,避免干擾內容。
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-conic-gradient(
+    rgba(106, 161, 95, 0.055) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 68px 68px;
+  background-position: 0 0;
+  mask-image: radial-gradient(
+    ellipse 75% 65% at 50% 32%,
+    #000 28%,
+    transparent 92%
+  );
+}
+
+/*
+ * 青海波 (Seigaiha / water-breathing waves) — 底部水之呼吸波紋。
+ * 以重複徑向漸層堆疊出同心圓弧,金線描邊。
+ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 38%,
+      rgba(75, 163, 176, 0.16) 38% 40%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 24%,
+      rgba(201, 164, 92, 0.12) 24% 26%,
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 10%,
+      rgba(75, 163, 176, 0.1) 10% 12%,
+      transparent 12%
+    );
+  background-size: 72px 36px;
+  background-repeat: repeat-x;
+  mask-image: linear-gradient(to top, #000, transparent);
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
   min-height: 100svh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
 }
 
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-cyber-text);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+::selection {
+  background: rgba(207, 74, 55, 0.4);
+  color: #fff7ec;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+
+/* Scrollbar — 竹節綠軌 + 金箔拇指 */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
-p {
+*::-webkit-scrollbar-track {
+  background: var(--color-cyber-bg-2);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-cyber-border);
+  border-radius: 6px;
+  border: 2px solid var(--color-cyber-bg-2);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-deep);
+}
+
+/* Number input spinner cleanup */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
   margin: 0;
 }
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* ── Utility: 朱の光暈 (vermilion text glow) ── */
+@utility text-glow-purple {
+  text-shadow:
+    0 0 10px rgba(207, 74, 55, 0.55),
+    0 0 26px rgba(207, 74, 55, 0.28);
+}
+
+/* ── Utility: 水の光暈 (water teal glow) ── */
+@utility text-glow-cyan {
+  text-shadow:
+    0 0 10px rgba(75, 163, 176, 0.5),
+    0 0 24px rgba(75, 163, 176, 0.24);
+}
+
+/* ── Utility: 金の光暈 (gold glow) ── */
+@utility text-glow-gold {
+  text-shadow:
+    0 0 10px rgba(201, 164, 92, 0.55),
+    0 0 26px rgba(201, 164, 92, 0.3);
+}
+
+/*
+ * ── Utility: 和紙パネル (washi panel) ──
+ * 紙の質感 + 金箔のヘアライン枠。所有 Card 透過此 class 取得和風外觀。
+ */
+@utility cyber-panel {
+  background:
+    linear-gradient(180deg, rgba(239, 229, 207, 0.035) 0%, transparent 38%),
+    linear-gradient(
+      180deg,
+      var(--color-cyber-panel) 0%,
+      var(--color-cyber-panel-2) 100%
+    );
+  border: 1px solid var(--color-cyber-border);
+  box-shadow:
+    inset 0 0 0 1px rgba(201, 164, 92, 0.07),
+    inset 0 1px 0 rgba(239, 229, 207, 0.05),
+    0 1px 0 rgba(0, 0, 0, 0.5),
+    0 10px 30px -14px rgba(0, 0, 0, 0.75);
+}
+
+/* ── Utility: 金枠パネル (gold-framed panel · 強調) ── */
+@utility cyber-panel-glow {
+  background:
+    linear-gradient(180deg, rgba(201, 164, 92, 0.06) 0%, transparent 40%),
+    linear-gradient(
+      180deg,
+      var(--color-cyber-panel) 0%,
+      var(--color-cyber-panel-2) 100%
+    );
+  border: 1px solid rgba(201, 164, 92, 0.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(201, 164, 92, 0.12),
+    inset 0 1px 0 rgba(239, 229, 207, 0.06),
+    0 0 0 1px rgba(207, 74, 55, 0.06),
+    0 10px 34px -10px rgba(0, 0, 0, 0.8);
+}
+
+/* ── Utility: 金の輪郭 (gold ring) ── */
+@utility neon-ring {
+  box-shadow:
+    0 0 0 1px rgba(201, 164, 92, 0.65),
+    0 0 14px 0 rgba(201, 164, 92, 0.4),
+    0 0 30px 0 rgba(207, 74, 55, 0.18);
+}
+
+@utility mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+
+/* ── Utility: Cinzel ヴィンテージ大文字 (vintage latin caps) ── */
+@utility font-vintage {
+  font-family: var(--font-vintage);
+  letter-spacing: 0.14em;
+}
+
+/*
+ * ── Utility: 市松ボーダー (ichimatsu hairline divider) ──
+ * 用於分隔線:金/朱交錯的細格紋。
+ */
+@utility ichimatsu-rule {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(201, 164, 92, 0.55) 0 7px,
+    transparent 7px 14px
+  );
+  height: 2px;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(207, 74, 55, 0.7);
+  }
+  50% {
+    opacity: 0.82;
+    box-shadow: 0 0 0 6px rgba(207, 74, 55, 0);
+  }
+}
+
+@utility pulse-dot {
+  animation: pulse-glow 2.4s ease-in-out infinite;
 }

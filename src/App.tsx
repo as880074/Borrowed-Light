@@ -2,27 +2,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { InputPage } from '@/pages/InputPage'
 import { ResultsPage } from '@/pages/ResultsPage'
 import { DEFAULT_VALUES, type FormValues } from '@/lib/schema'
-import type { CalcParams, CalcResult } from '@/lib/calc/engine'
+import type { CalcResult } from '@/lib/calc/engine'
 import { compute } from '@/lib/calc/engine'
+import { formValuesToCalcParams } from '@/lib/calc/params'
 import { buildResultsUrl, buildInputUrl, hasResultsParam, deserializeFromUrl } from '@/lib/url'
-
-function formValuesToCalcParams(values: FormValues): CalcParams {
-  return {
-    loanAmount: values.loanAmount,
-    annualLoanRate: values.annualLoanRatePct / 100,
-    termYears: values.termYears,
-    repaymentMethod: values.repaymentMethod,
-    annualGrowthRate: values.annualGrowthRatePct / 100,
-    dividendYield: values.dividendYieldPct / 100,
-    dividendPolicy: values.dividendPolicy,
-    customReinvestRatio: values.customReinvestRatioPct / 100,
-    ownFunds: values.ownFunds,
-    dividendTaxRate: values.dividendTaxRatePct / 100,
-    tradingTaxRate: values.tradingTaxRatePct / 100,
-    brokerageRate: values.brokerageRatePct / 100,
-    brokerageDiscount: values.brokerageDiscountPct / 100,
-  }
-}
 
 function getFormValuesFromUrl(): FormValues {
   return {

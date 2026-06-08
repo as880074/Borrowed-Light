@@ -14,16 +14,16 @@ interface FormFieldProps {
 
 export function FormField({ label, htmlFor, error, hint, children, className, suffix }: FormFieldProps) {
   return (
-    <div className={cn('space-y-1', className)}>
-      <Label htmlFor={htmlFor} className="text-gray-700">{label}</Label>
+    <div className={cn('space-y-1.5', className)}>
+      <Label htmlFor={htmlFor}>{label}</Label>
       <div className="relative">
         {children}
         {suffix && (
-          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-gray-500">{suffix}</span>
+          <span className="mono-tabular pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-cyber-text-3">{suffix}</span>
         )}
       </div>
-      {hint && !error && <p className="text-xs text-gray-500">{hint}</p>}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {hint && !error && <p className="text-xs text-cyber-text-3">{hint}</p>}
+      {error && <p className="text-xs font-medium text-neon-red">{error}</p>}
     </div>
   )
 }

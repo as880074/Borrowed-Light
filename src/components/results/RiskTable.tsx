@@ -9,35 +9,48 @@ interface Props {
 export function RiskTable({ rows }: Props) {
   return (
     <div>
-      <h3 className="mb-3 text-base font-semibold text-gray-800">風險試算：ETF 跌幅情境（以投入當下試算）</h3>
-      <div className="overflow-x-auto">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-cyber-text">
+          <span className="h-1.5 w-1.5 rounded-full bg-neon-red shadow-[0_0_8px_rgba(195,57,47,0.85)]" />
+          風險試算：ETF 跌幅情境
+        </h3>
+        <span className="mono-tabular text-[10px] uppercase tracking-[0.2em] text-cyber-text-3">RISK.MATRIX</span>
+      </div>
+      <div className="overflow-x-auto rounded-md border border-cyber-border/60">
         <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-200">
-              <th className="py-2 pr-4 text-left font-medium text-gray-600">ETF跌幅</th>
-              <th className="py-2 pr-4 text-right font-medium text-gray-600">ETF市值</th>
-              <th className="py-2 pr-4 text-right font-medium text-gray-600">未償還貸款</th>
-              <th className="py-2 text-right font-medium text-gray-600">淨資產</th>
+          <thead className="bg-cyber-panel-2/50">
+            <tr className="border-b border-cyber-border/70">
+              <th className="py-2.5 pl-3 pr-4 text-left text-[10px] font-semibold uppercase tracking-[0.18em] text-cyber-text-3">ETF跌幅</th>
+              <th className="py-2.5 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.18em] text-cyber-text-3">ETF市值</th>
+              <th className="py-2.5 pr-4 text-right text-[10px] font-semibold uppercase tracking-[0.18em] text-cyber-text-3">未償還貸款</th>
+              <th className="py-2.5 pr-3 text-right text-[10px] font-semibold uppercase tracking-[0.18em] text-cyber-text-3">淨資產</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="mono-tabular">
             {rows.map((row) => (
-              <tr key={row.dropPct} className={`border-b border-gray-100 ${row.isInsolvable ? 'bg-red-50' : ''}`}>
-                <td className="py-2.5 pr-4 font-medium text-gray-700">
-                  <span className="text-red-600">▼{(row.dropPct * 100).toFixed(0)}%</span>
+              <tr
+                key={row.dropPct}
+                className={`border-b border-cyber-border/40 last:border-b-0 transition-colors hover:bg-neon-purple/[0.04] ${row.isInsolvable ? 'bg-neon-red/[0.06]' : ''}`}
+              >
+                <td className="py-2.5 pl-3 pr-4 font-medium">
+                  <span className="text-neon-red">▼ {(row.dropPct * 100).toFixed(0)}%</span>
                 </td>
-                <td className="py-2.5 pr-4 text-right text-gray-700">{formatCurrency(row.etfValue)}</td>
-                <td className="py-2.5 pr-4 text-right text-gray-700">{formatCurrency(row.remainingLoan)}</td>
-                <td className="py-2.5 text-right">
-                  <span className={row.netWorth < 0 ? 'font-semibold text-red-600' : 'text-gray-700'}>{formatCurrency(row.netWorth)}</span>
-                  {row.isInsolvable && <Badge variant="destructive" className="ml-2 text-xs">資不抵債</Badge>}
+                <td className="py-2.5 pr-4 text-right text-cyber-text-2">{formatCurrency(row.etfValue)}</td>
+                <td className="py-2.5 pr-4 text-right text-cyber-text-2">{formatCurrency(row.remainingLoan)}</td>
+                <td className="py-2.5 pr-3 text-right">
+                  <span className={row.netWorth < 0 ? 'font-semibold text-neon-red text-glow-cyan' : 'text-cyber-text'}>
+                    {formatCurrency(row.netWorth)}
+                  </span>
+                  {row.isInsolvable && <Badge variant="destructive" className="ml-2">資不抵債</Badge>}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="mt-2 text-xs text-gray-400">* 此表假設在投入當下（第0年）ETF即時下跌，以評估最壞情境之槓桿風險。</p>
+      <p className="mt-2 mono-tabular text-[10px] uppercase tracking-[0.15em] text-cyber-text-4">
+        // assumes instant drawdown at t=0 to evaluate worst-case leverage exposure
+      </p>
     </div>
   )
 }

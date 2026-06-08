@@ -1,4 +1,5 @@
 import { type UseFormReturn } from 'react-hook-form'
+import { Coins } from 'lucide-react'
 import type { FormValues } from '@/lib/schema'
 import { FormField } from './FormField'
 import { Input } from '@/components/ui/input'
@@ -16,7 +17,11 @@ export function DividendSection({ form }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>💰 股息處理方式</CardTitle>
+        <CardTitle>
+          <Coins className="h-3.5 w-3.5 text-neon-green" />
+          <span>03 · 股息政策</span>
+        </CardTitle>
+        <span className="mono-tabular text-[10px] text-cyber-text-3">DIV.OUT</span>
       </CardHeader>
       <CardContent className="space-y-4">
         <FormField label="股息政策" error={errors.dividendPolicy?.message}>

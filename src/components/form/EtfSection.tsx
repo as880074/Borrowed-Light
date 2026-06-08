@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { type UseFormReturn } from 'react-hook-form'
-import { Loader2, RefreshCw } from 'lucide-react'
+import { Loader2, RefreshCw, LineChart, AlertTriangle } from 'lucide-react'
 import type { FormValues } from '@/lib/schema'
 import { FormField } from './FormField'
 import { Input } from '@/components/ui/input'
@@ -42,11 +42,15 @@ export function EtfSection({ form }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>📈 ETF 設定</CardTitle>
+        <CardTitle>
+          <LineChart className="h-3.5 w-3.5 text-neon-cyan" />
+          <span>02 · ETF 設定</span>
+        </CardTitle>
+        <span className="mono-tabular text-[10px] text-cyber-text-3">ETF.SRC</span>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-end gap-2">
-          <FormField label="ETF代號（選填）" htmlFor="etfSymbol" className="flex-1" hint="輸入代號後可嘗試自動帶入數據">
+          <FormField label="ETF 代號（選填）" htmlFor="etfSymbol" className="flex-1" hint="輸入代號後可嘗試自動帶入歷史數據">
             <Input id="etfSymbol" placeholder="例：0050" {...register('etfSymbol')} />
           </FormField>
           <Button type="button" variant="outline" size="sm" onClick={handleAutoFill} disabled={loading || !etfSymbol} className="mb-0.5">
@@ -54,15 +58,34 @@ export function EtfSection({ form }: Props) {
             <span className="ml-1">自動帶入</span>
           </Button>
         </div>
-        {fetchError && <p className="text-xs text-amber-600">⚠️ {fetchError}</p>}
+        {fetchError && (
+          <p className="flex items-center gap-1.5 text-xs text-neon-amber">
+            <AlertTriangle className="h-3.5 w-3.5" /> {fetchError}
+          </p>
+        )}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormField label="年化價格成長率（%）" htmlFor="annualGrowthRatePct" error={errors.annualGrowthRatePct?.message} suffix="%" hint="僅含價差，不含股息">
-            <Input id="annualGrowthRatePct" type="number" step={0.5} className="pr-8" {...register('annualGrowthRatePct', { valueAsNumber: true })} />
+            <Input
+              id="annualGrowthRatePct"
+              type="number"
+              inputMode="decimal"
+              step={0.5}
+              className="pr-8"
+              {...register('annualGrowthRatePct', { valueAsNumber: true })}
+            />
           </FormField>
 
           <FormField label="殖利率（%）" htmlFor="dividendYieldPct" error={errors.dividendYieldPct?.message} suffix="%">
-            <Input id="dividendYieldPct" type="number" min={0} step={0.1} className="pr-8" {...register('dividendYieldPct', { valueAsNumber: true })} />
+            <Input
+              id="dividendYieldPct"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step={0.1}
+              className="pr-8"
+              {...register('dividendYieldPct', { valueAsNumber: true })}
+            />
           </FormField>
         </div>
       </CardContent>

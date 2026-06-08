@@ -1,0 +1,39 @@
+name: CI
+
+# PR 與非 main 推送的品質把關:lint + typecheck + 測試 + 建置
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+# 同一分支的舊執行自動取消,節省 runner
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      # build 內含 `tsc -b`,等同 typecheck;同時驗證可正常打包
+      - name: Build
+        run: npm run build
